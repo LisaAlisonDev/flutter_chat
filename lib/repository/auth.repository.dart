@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat/abstracts/auth.repository.abstract.dart';
 import 'package:flutter_chat/models/response.dart';
-import 'package:flutter_chat/repository/user.repository.dart';
 import '../models/user.dart';
 
 
-class AuthRepository implements UserRepository {
+class AuthRepository implements AuthRepositoryAbstract {
   final FirebaseAuth _auth;
   const AuthRepository(this._auth);
 
