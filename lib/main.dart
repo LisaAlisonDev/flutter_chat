@@ -4,7 +4,6 @@ import 'package:flutter_chat/pages/login.dart';
 import 'package:flutter_chat/pages/welcome.dart';
 import 'package:flutter_chat/repository/auth.repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'conf/firebase_options.dart';
 import 'package:flutter/material.dart';
 
