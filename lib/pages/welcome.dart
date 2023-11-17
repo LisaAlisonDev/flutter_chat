@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/main.dart';
 import 'package:flutter_chat/utils/extensions.dart';
 
 import '../controllers/auth.controllers.dart';
-import '../widget.tree.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -25,12 +25,12 @@ class _WelcomePageState extends State<WelcomePage> {
                 const Text("You are connected"),
                 FilledButton(
                   onPressed:  ()  async {
-                    await FireAuth().signOut();
+                    await AuthController().signOut();
                     if (!mounted) return;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const WidgetTree()),
+                          builder: (context) => MyApp()),
                     );
                   },
                   child: const Text(

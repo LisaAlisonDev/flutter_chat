@@ -2,48 +2,40 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat/models/response.dart';
+import 'package:flutter_chat/models/user.dart';
+import 'package:flutter_chat/repository/auth.repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class FireAuth {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  User? get currentUser => _firebaseAuth.currentUser;
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<Response> signInWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
+final appAuthProvider = Provider<AuthRepository>(
+      (ref) => AuthController().authRepository
+);
+
+class AuthController {
+  final AuthRepository authRepository = AuthRepository(FirebaseAuth.instance);
+
+  Future<Response?> logIn(AppUser user) async {
     try {
-      final request = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return Response(request, null);
-    } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
-      print(e.message);
+      final request = await authRepository.logIn(user);
+      return request;
+    } catch (e) {
+      print('Failed with error code: ${e}');
       return Response({}, "Une erreur est survenue.");
     }
   }
 
-  Future<Response> createUserWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
+  Future<Response> register(AppUser user) async {
     try {
-      final request = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return Response(request, null);
+      final request = await authRepository.register(user);
+      return request;
       // Use the result
-    } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
-      print(e.message);
+    } catch (e) {
+      print('Failed with error code: ${e}');
       return Response({}, "Une erreur est survenue.");
     }
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    await authRepository.signOut();
   }
 }

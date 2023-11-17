@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/main.dart';
 import 'package:flutter_chat/models/response.dart';
+import 'package:flutter_chat/models/user.dart';
 
 import '../components/app_text_form_field.dart';
 import '../controllers/auth.controllers.dart';
 import '../utils/extensions.dart';
 import '../values/app_colors.dart';
 import '../values/app_constants.dart';
-import '../widget.tree.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -210,8 +211,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   FilledButton(
                     onPressed: _formKey.currentState?.validate() ?? false
                         ? () async {
-                      final Response result = await FireAuth().createUserWithEmailAndPassword(
-                          email: emailController.text, password: passwordController.text);;
+                      final Response result = await AuthController().register(
+                          AppUser(nameController.text,
+                         emailController.text,
+                         passwordController.text));
                       if (!mounted) return;
                       if (result.error == null) {
                         nameController.clear();
@@ -226,7 +229,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const WidgetTree()),
+                              builder: (context) => MyApp()),
                         );
                       }
                     }

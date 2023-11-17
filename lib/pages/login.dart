@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat/controllers/auth.controllers.dart';
 import 'package:flutter_chat/models/response.dart';
+import 'package:flutter_chat/models/user.dart';
 import 'package:flutter_chat/pages/register.dart';
 import 'package:flutter_chat/utils/extensions.dart';
 import '../components/app_text_form_field.dart';
@@ -131,10 +132,10 @@ class _LoginPageState extends State<LoginPage> {
                     FilledButton(
                       onPressed: _formKey.currentState?.validate() ?? false
                           ? () async {
-                              final Response result  = await FireAuth().signInWithEmailAndPassword(
-                                  email: emailController.text, password: passwordController.text);
+                              final Response? result  = await AuthController().logIn(
+                                  AppUser("", emailController.text, passwordController.text));
                               if (!mounted) return;
-                              if (result.error == null) {
+                              if (result?.error == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Vous êtes connecté !'),
